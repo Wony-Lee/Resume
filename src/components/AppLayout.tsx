@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled'
 import NavBar from "./Navigation/NavBar";
+import FootBar from "./Foot/FootBar";
 
 const Layout = styled.div`
   display:flex;
@@ -55,7 +56,7 @@ const AppLayout = ({children}:Props) => {
                 {children}
             </Content>
             <Footer>
-                Footer
+                <FootBar />
             </Footer>
         </Layout>
     )

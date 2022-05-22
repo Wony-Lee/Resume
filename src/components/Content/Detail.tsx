@@ -3,10 +3,21 @@ import styled from '@emotion/styled'
 import {useAppSelector} from "../../store";
 
 
-const Layout = styled.div`
-  display:flex;
+const Layout = styled.div<{selected?: number}>`
+  display:${({selected}) => selected !== 0 ? "flex" : "none"};
   flex-direction: column;
   width:100%;
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  };
+  animation-duration: 2s;
+  animation-name: fadeIn;
   @media(max-width:640px) {
     align-items: center;
   }
@@ -19,8 +30,10 @@ const Header = styled.div`
 const Content = styled.div`
   width:80%;
   margin-bottom:40px;
+  word-break:break-all;
 `
 const LinkArea = styled.div`
+  
   p {
     cursor:pointer
   }
@@ -43,12 +56,11 @@ const Detail = () => {
         }
     },[tab])
     return (
-        <Layout>
+        <Layout selected={tab}>
             <Header>
                 <h2>Title : {"Text"} </h2>
             </Header>
             <Content>
-                <p>
                     대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
                     대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
                     대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
@@ -60,7 +72,6 @@ const Detail = () => {
                     대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
                     대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
                     대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                </p>
             </Content>
             <LinkArea>
                 <p onClick={handleLocation}>Go Link</p>

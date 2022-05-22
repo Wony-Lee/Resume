@@ -40,6 +40,7 @@ const MyInfo = styled.div`
     width:100%;
     margin-bottom:10px;
     b {
+      color:darkorange;
       font-weight: bold;
     }
   }

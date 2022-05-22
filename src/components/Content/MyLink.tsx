@@ -15,6 +15,12 @@ const Layout = styled.div`
 
 const Article = styled.div`
   width:20%;
+  h1 {
+    color:darkorange;
+    text-align: center;
+    font-size:20px;
+    font-weight: bold;
+  }
   @media(max-width:640px) {
     overflow-x: scroll;
     width:100%;
@@ -49,7 +55,7 @@ const Item = styled.li`
   box-sizing: border-box;
   cursor:pointer;
   &:hover {
-    color:pink;
+    color:darkorange
   }
   @media(max-width:640px) {
     margin:5px;
@@ -68,10 +74,11 @@ const MyLink = () => {
     return (
         <Layout>
             <Article>
+                <h1>진행한 프로젝트</h1>
                 <List>
                     <Item onClick={() => handleSelectedTab(1)}>
                         현대
-                        증명서 발급 시스템
+                        증명서 발급
                         {/*(화면개발)*/}
                         {/*https://certi.hmc.co.kr/*/}
                     </Item>
