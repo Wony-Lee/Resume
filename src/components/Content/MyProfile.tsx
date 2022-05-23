@@ -64,10 +64,10 @@ const MyProfile = () => {
             refetchOnWindowFocus:true,
             retry:3,
             onSuccess: data => {
-                console.log('API CALL =>',data)
+                // console.log('API CALL =>',data)
             },
             onError: (e) => {
-                console.log(e)
+                console.error(e,'API CALL FAIL')
             }
         }
     )

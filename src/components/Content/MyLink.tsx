@@ -79,17 +79,17 @@ const MyLink = () => {
             refetchOnWindowFocus:true,
             retry:3,
             onSuccess: data => {
-                console.log(data)
+                // console.log(data)
             },
             onError: (e) => {
-                console.log(e)
+                console.error(e,'API CALL FAIL')
             }
         }
     )
 
     const tab = useAppSelector(state => state.content.tab)
     const handleSelectedTab = useCallback((param:number) => {
-        console.log(param)
+        // console.log(param)
         dispatch(setSelectTab(param))
         if(param === tab) dispatch(setSelectTab(0))
     },[dispatch, tab])
