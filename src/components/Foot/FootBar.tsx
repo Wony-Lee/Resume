@@ -26,8 +26,11 @@ const List = styled.ul`
 const Item = styled.li`
   display:flex;
   align-items: center;
-  
   color:white;
+  a {
+    text-decoration: none;
+    color:white;
+  }
   span {
     margin-top:3px;
   }
@@ -41,20 +44,53 @@ const FootBar = () => {
         <Layout>
             <List>
             <Item>
-                <AiFillGithub />
-                <span>GitHub</span>
+                    <AiFillGithub />
+                    <span>
+                        <a
+                            href={"https://github.com/Wony-Lee"}
+                            rel={"noopener"}
+                            target={"_blank"}
+                        >
+                            GitHub
+                        </a>
+                    </span>
+
             </Item>
             <Item>
-                <AiFillLinkedin />
-                <span>LinkedIn</span>
+                    <AiFillLinkedin />
+                    <span>
+                        <a
+                            href={"https://www.linkedin.com/in/%EC%9C%A4%EC%9B%90-%EC%9D%B4-733a14202/"}
+                           rel={"noopener"}
+                           target={"_blank"}
+                        >
+                        LinkedIn
+                        </a>
+                    </span>
             </Item>
             <Item>
                 <SiNotion/>
-                <span>Notion</span>
+                <span>
+                    <a
+                        href={"https://dev-wony.notion.site/Wony-Resume-6fd8fdddb5e14a25996aafd9ff38c619"}
+                       rel={"noopener"}
+                       target={"_blank"}
+                    >
+                        Notion
+                    </a>
+                </span>
             </Item>
             <Item>
-                <AiFillYoutube />
-                <span>YOUTUBE</span>
+                    <AiFillYoutube />
+                    <span>
+                        <a
+                            href={"https://www.youtube.com/results?search_query=%EC%9C%A4%EC%8B%9C%EC%9B%90"}
+                            rel={"noopener"}
+                            target={"_blank"}
+                        >
+                        YOUTUBE(Bro)
+                        </a>
+                    </span>
             </Item>
             </List>
         </Layout>

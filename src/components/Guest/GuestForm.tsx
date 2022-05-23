@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from '@emotion/styled';
 import useInputs from "../../hooks/useInputs";
 
@@ -67,9 +67,16 @@ const Form = styled.form`
 `;
 
 const GuestForm = () => {
+    const [disabled, setDisabled] = useState(false)
     const [postValue, handlePostValue, setPostValue] = useInputs("")
     const { name, content } = postValue
-
+    const handleClick = useCallback(  ()=>{
+         setDisabled(prev => prev = !prev)
+        const loadingSpin = setInterval(() => {
+            setDisabled(prev => prev = !prev)
+            clearInterval(loadingSpin)
+        }, 3000)
+    },[disabled])
     const handleSubmit = useCallback((e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
         const formData = new FormData();
@@ -77,11 +84,11 @@ const GuestForm = () => {
         formData.append("content", content);
 
         // formData Check
-        for(let val of formData.values()) {
-            console.log('val',val)
-        }
+        // for(let val of formData.values()) {
+        //     console.log('val',val)
+        // }
         setPostValue({...postValue, name:"", content:""});
-    },[name, content])
+    },[name, content, disabled])
 
     return (
         <Layout>
@@ -96,6 +103,7 @@ const GuestForm = () => {
                         value={name || ""}
                         maxLength={6}
                         onChange={handlePostValue}
+                        // readOnly
                     />
                 </div>
                 <div className={"content"}>
@@ -105,10 +113,13 @@ const GuestForm = () => {
                         value={content || ""}
                         maxLength={120}
                         onChange={handlePostValue}
+                        // readOnly
                     />
                 </div>
                 <div className={"foot"}>
-                    <button>글 작성</button>
+                    <button onClick={handleClick} disabled={disabled}>
+                        { disabled ? '글 작성중': '글 작성'}
+                    </button>
                 </div>
             </Form>
         </Layout>
