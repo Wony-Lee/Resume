@@ -71,23 +71,31 @@ const GuestForm = () => {
     const [postValue, handlePostValue, setPostValue] = useInputs("")
     const { name, content } = postValue
     const handleClick = useCallback(  ()=>{
-         setDisabled(prev => prev = !prev)
-        const loadingSpin = setInterval(() => {
+        if(!name && !content) {
+            alert('내용을 입력하세요')
+        }
+        if(name && content) {
             setDisabled(prev => prev = !prev)
-            clearInterval(loadingSpin)
-        }, 3000)
-    },[disabled])
+            const loadingSpin = setInterval(() => {
+                setDisabled(prev => prev = !prev)
+                clearInterval(loadingSpin)
+            }, 3000)
+        }
+
+    },[name, content, disabled])
     const handleSubmit = useCallback((e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
         const formData = new FormData();
-        formData.append("name", name);
-        formData.append("content", content);
+        if(name && content) {
+            formData.append("name", name);
+            formData.append("content", content);
 
-        // formData Check
-        // for(let val of formData.values()) {
-        //     console.log('val',val)
-        // }
-        setPostValue({...postValue, name:"", content:""});
+            // formData Check
+            // for(let val of formData.values()) {
+            //     console.log('val',val)
+            // }
+            setPostValue({...postValue, name:"", content:""});
+        }
     },[name, content, disabled])
 
     return (
