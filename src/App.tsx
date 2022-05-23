@@ -4,6 +4,7 @@ import MyLink from "./components/Content/MyLink";
 import { Routes, Route } from 'react-router-dom'
 import MyProfile from "./components/Content/MyProfile";
 import Guest from "./components/Guest/Guest";
+import {useQuery} from "react-query";
 
 function App() {
   return (

@@ -1,8 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from '@emotion/styled'
 import {useAppDispatch, useAppSelector} from "../../store";
 import {setSelectTab} from "../../reducers/content";
 import Detail from "./Detail";
+import {IDetail} from "../../interface/detailInterface";
+import {useQuery} from "react-query";
 
 const Layout = styled.div`
   display:flex;
@@ -15,11 +17,15 @@ const Layout = styled.div`
 
 const Article = styled.div`
   width:20%;
-  h1 {
-    color:darkorange;
-    text-align: center;
-    font-size:20px;
-    font-weight: bold;
+  div {
+    margin:5px 5px 10px 0px;
+    h1 {
+      padding:5px;
+      color:darkorange;
+      text-align: center;
+      font-size:20px;
+      font-weight: bold;
+    } 
   }
   @media(max-width:640px) {
     overflow-x: scroll;
@@ -65,43 +71,65 @@ const Item = styled.li`
 
 const MyLink = () => {
     const dispatch = useAppDispatch()
+    const apiCall = () => {
+        return fetch(`${process.env.REACT_APP_SERVER_URL}/detail/`)
+            .then(res => res.json())
+    }
+    const {isLoading, isError, data ,error } = useQuery("detail", apiCall,{
+            refetchOnWindowFocus:true,
+            retry:3,
+            onSuccess: data => {
+                console.log(data)
+            },
+            onError: (e) => {
+                console.log(e)
+            }
+        }
+    )
+
     const tab = useAppSelector(state => state.content.tab)
     const handleSelectedTab = useCallback((param:number) => {
         console.log(param)
         dispatch(setSelectTab(param))
         if(param === tab) dispatch(setSelectTab(0))
     },[dispatch, tab])
+
+    useEffect(()=>{
+    },[])
     return (
         <Layout>
             <Article>
-                <h1>진행한 프로젝트</h1>
+                <div>
+                    <h1>진행한 프로젝트</h1>
+                </div>
                 <List>
                     <Item onClick={() => handleSelectedTab(1)}>
                         현대
                         증명서 발급
-                        {/*(화면개발)*/}
-                        {/*https://certi.hmc.co.kr/*/}
                     </Item>
                     <Item onClick={() => handleSelectedTab(2)}>
-                        {/*(링크 없음)*/}
                         현대 SF MSK
-                        {/*(대시보드 화면 개발)*/}
                     </Item>
                     <Item onClick={() => handleSelectedTab(3)}>
-                        {/*(링크 없음)*/}
                         현대 SF MIS
-                        {/*(화면 개발 및 Qlik 개발)*/}
                     </Item>
                     <Item onClick={() => handleSelectedTab(4)}>
                         메타그라운드
-                        {/*https://metaground.io*/}
                     </Item>
                 </List>
             </Article>
             <Contents>
                 {
-                    tab !== 0 &&
-                    <Detail />
+                    data?.map((item:IDetail) =>
+                        item.id === tab &&
+                      <Detail
+                        key={item.id}
+                        id={item.id}
+                        title={item.title}
+                        description={item.description}
+                        links={item.link}
+                      />
+                    )
                 }
             </Contents>
         </Layout>

@@ -58,7 +58,7 @@ const GuestItem = () => {
                 <p>이름 : {"홍길동"}</p>
             </div>
             <div className={"content"}>
-                asdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdadasdad
+                제작중
             </div>
             <div className={"foot"}>
                 <Button colors={"palevioletred"}>수정</Button>

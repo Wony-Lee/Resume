@@ -1,6 +1,8 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styled from '@emotion/styled'
 import {useAppSelector} from "../../store";
+import parse from 'html-react-parser'
+import {paramCheck} from "../../utils/paramCheck";
 
 
 const Layout = styled.div<{selected?: number}>`
@@ -26,11 +28,20 @@ const Layout = styled.div<{selected?: number}>`
 const Header = styled.div`
   display:flex;
   margin-bottom:30px;
+  h2 {
+    font-size:24px;
+    font-weight: bold;
+    
+  }
 `;
 const Content = styled.div`
   width:80%;
   margin-bottom:40px;
   word-break:break-all;
+  p {
+    font-size:16px;
+    line-height: 24px;
+  }
 `
 const LinkArea = styled.div`
   
@@ -39,7 +50,14 @@ const LinkArea = styled.div`
   }
 `;
 
-const Detail = () => {
+interface Props {
+    id:number;
+    title:string;
+    description:string;
+    links?:string | undefined;
+}
+
+const Detail = ({id, title, description, links}:Props) => {
     const tab = useAppSelector(state => state.content.tab)
     const handleLocation = useCallback(()=>{
         switch(tab) {
@@ -58,26 +76,18 @@ const Detail = () => {
     return (
         <Layout selected={tab}>
             <Header>
-                <h2>Title : {"Text"} </h2>
+                <h2>{title} </h2>
             </Header>
             <Content>
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
-                    대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명대충 설명
+                {parse(description)}
             </Content>
             <LinkArea>
-                <p onClick={handleLocation}>Go Link</p>
+                <p onClick={handleLocation}>
+                    {paramCheck(links)}
+                </p>
             </LinkArea>
         </Layout>
     );
 };
 
-export default Detail;
+export default React.memo(Detail);

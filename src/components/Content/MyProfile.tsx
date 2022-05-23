@@ -1,6 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import styled from '@emotion/styled'
 import Images from "../Profile/Images";
+import {useQuery} from "react-query";
+import parse from "html-react-parser";
 
 const Layout = styled.div`
   display:flex;
@@ -16,8 +18,11 @@ const Content = styled.div<{ isActive: boolean }>`
   display:${({isActive}) => isActive ? 'flex' : 'none'};
   flex-direction: column;
   align-items: flex-start;
-  width:260px;
+  max-width:360px;
   margin-top:30px;
+    p {
+      line-height: 26px;
+  }
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -46,37 +51,52 @@ const MyInfo = styled.div`
   }
 `;
 
-
 const MyProfile = () => {
     const [isActive, setIsActive] = useState(false)
     const handleIsActive = useCallback(()=>{
         setIsActive(prev => prev = !prev)
-    },[])
+    },[isActive])
+    const apiCall = () => {
+        return fetch(`${process.env.REACT_APP_SERVER_URL}/profile/`)
+            .then(res => res.json())
+    }
+    const {isLoading, isError, data ,error } = useQuery(["profile"], apiCall,{
+            refetchOnWindowFocus:true,
+            retry:3,
+            onSuccess: data => {
+                console.log('API CALL =>',data)
+            },
+            onError: (e) => {
+                console.log(e)
+            }
+        }
+    )
+
     return (
         <Layout>
             <Header>
-                <Images />
+                <Images imgUrl={data?.imgUrl}/>
             </Header>
-            <MyInfo>
-                <p>
-                    <b>이름 : </b>이윤원
-                </p>
-                <p>
-                    <b>생년월일 : </b>94.08.31
-                </p>
-                <p>
-                    <b>거주지 : </b>서울시 강서구
-                </p>
-                <p>
-                    <b>이메일 : </b>tkfkddla@nate.com
-                </p>
-            </MyInfo>
-            <p onClick={handleIsActive}>더보기</p>
-            <Content isActive={isActive}>
-                <div>자기소개</div>
-            </Content>
+                <MyInfo>
+                    <p>
+                        <b>이름 : </b>{data?.name}
+                    </p>
+                    <p>
+                        <b>생년월일 : </b>{data?.birth}
+                    </p>
+                    <p>
+                        <b>거주지 : </b>{data?.address}
+                    </p>
+                    <p>
+                        <b>이메일 : </b>{data?.email}
+                    </p>
+                </MyInfo>
+                <p onClick={handleIsActive}>더보기</p>
+                <Content isActive={isActive}>
+                        <p>{data?.description && parse(data?.description)}</p>
+                </Content>
         </Layout>
     );
 };
 
-export default MyProfile;
+export default React.memo(MyProfile);

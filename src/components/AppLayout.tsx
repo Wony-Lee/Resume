@@ -23,20 +23,20 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   width:100%;
-  
   min-height:760px;
   height:100%;
-  border:1px solid green;
-  
-  
 `
 
 const Footer = styled.div`
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  max-width:1280px;
   width:100%;
-  border:1px solid blue;
-  
   position:fixed;
   bottom:0;
+  box-sizing: border-box;
+  
   @media(max-height:860px) {
     position:relative;
   }
